@@ -1,30 +1,21 @@
 import React from "react";
-import {
-  SafeAreaView,
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-} from "react-native";
+import { SafeAreaView, View, Text, StyleSheet, TextInput } from "react-native";
 import { colors } from "../config/constants";
-
+import Button from "../components/Button";
 function SignUp() {
   return (
+    
     <View style={styles.container}>
       <SafeAreaView>
         <View style={styles.contentContainer}>
-          <Text style={styles.title}>Create New Account</Text>
+          <Text style={styles.title}>Create New Account </Text>
           <TextInput style={styles.input} placeholder="enter your name" />
           <TextInput style={styles.input} placeholder="enter your email" />
           <TextInput style={styles.input} placeholder="enter your password" />
+
           <View style={styles.buttonsContainer}>
-            <TouchableOpacity styles={styles.buttonContainer} >
-              <Text styles={styles.buttonLabel}>Sign In</Text>
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Text styles={styles.buttonLabel}>Sign Up</Text>
-            </TouchableOpacity>
+            <Button title="Sign IN" varient="secondary" />
+            <Button title="Sign UP" varient="primary" />
           </View>
         </View>
       </SafeAreaView>
@@ -53,17 +44,11 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     borderRadius: 6,
   },
-  buttonsContainer:{
+  buttonsContainer: {
     flexDirection: "row",
-    justifyContent :"space-between",
-     marginTop: 32,  
-  },
-  buttonContainer:{
-    backgroundColor:"#000",
-  },
-  buttonLabel: {
 
-
+    justifyContent: "space-between",
+    marginTop: 32,
   },
 });
 

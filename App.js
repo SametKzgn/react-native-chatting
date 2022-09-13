@@ -7,12 +7,14 @@ import Settings from "./screens/Settings";
 import { Ionicons } from "@expo/vector-icons";
 import { colors } from "./config/constants";
 import SignUp from "./screens/SignUp";
+import Chats from "./screens/Chats";
 const ChatsStack = createNativeStackNavigator();
 
 const ChatsScreen = () => {
   return (
     <ChatsStack.Navigator>
-      <ChatsStack.Screen name="Chat" />
+      <ChatsStack.Screen name="Chat" component={Chat} />
+      <ChatsStack.Screen name="Chats" component={Chats} />
     </ChatsStack.Navigator>
   );
 };
@@ -57,6 +59,7 @@ const App = () => {
       <MainStack.Navigator headerMode="none" mode="modal"> 
         <MainStack.Screen   name="Tabs" component={TabsScreen} options={{ headerShown: false }} />
         <MainStack.Screen   name="SignUp" component={SignUp} />
+        <ChatsStack.Screen name="Chats" component={Chats}/>
       </MainStack.Navigator>
     </NavigationContainer>
   );

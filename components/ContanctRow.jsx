@@ -20,9 +20,9 @@ function ContanctRow({name, subtitle,onPress, style}) {
   )
 }
 const styles = StyleSheet.create({
-    container: {
+   /*  container: {
         paddingTop: Platform.OS === "android" ? 25 : 0,
-      },
+      }, */
       row: {
         flexDirection: "row",
         alignItems: "center",
