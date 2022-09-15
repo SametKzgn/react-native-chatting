@@ -1,66 +1,85 @@
-import React from "react";
-import { NavigationContainer } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { React, useEffect } from "react";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Chat from "./screens/Chat";
 import Settings from "./screens/Settings";
-import { Ionicons } from "@expo/vector-icons";
-import { colors } from "./config/constants";
+import ChatList from "./screens/ChatList";
+import Chat from "./screens/Chat";
+import SignIn from "./screens/SignIn";
 import SignUp from "./screens/SignUp";
-import Chats from "./screens/Chats";
-const ChatsStack = createNativeStackNavigator();
+import { Ionicons } from "@expo/vector-icons";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Provider } from "react-native-paper";
+import firebase from "firebase/app";
+import "firebase/auth";
+import "firebase/firestore";
+import {initializeApp} from "firebase/app"
 
-const ChatsScreen = () => {
-  return (
-    <ChatsStack.Navigator>
-      <ChatsStack.Screen name="Chat" component={Chat} />
-      <ChatsStack.Screen name="Chats" component={Chats} />
-    </ChatsStack.Navigator>
-  );
+const firebaseConfig = {
+  apiKey: "AIzaSyAK8zQMUSOnrCLk6-qT_XGh2m63pPN44ZE",
+  authDomain: "sam-chatting.firebaseapp.com",
+  projectId: "sam-chatting",
+  storageBucket: "sam-chatting.appspot.com",
+  messagingSenderId: "58592846062",
+  appId: "1:58592846062:web:91f9b006ddb5c6f9db53ff"
 };
 
-const SettingsStack = createNativeStackNavigator();
+const app = initializeApp(firebaseConfig);
 
-const SettingsScreen = () => {
-  return (
-    <SettingsStack.Navigator>
-      <SettingsStack.Screen name="Settings" />
-    </SettingsStack.Navigator>
-  );
-};
+const Stack = createNativeStackNavigator();
 const Tabs = createBottomTabNavigator();
 
-const TabsScreen = () => (
-  <Tabs.Navigator
-    screenOptions={({ route }) => ({
-      tabBarIcon: ({ focused, color, size }) => {
-        let iconName;
+const TabsNavigator = () => {
+  const navigation = useNavigation();
+  useEffect(() => {
+    const isLoggedIn = false;
+    if (!isLoggedIn) {
+      navigation.navigate("Signup");
+    }
+  }, []);
 
-        if (route.name === "Chat") {
-          iconName = focused ? "chatbubble" : "chatbubble-outline";
-        } else if (route.name === "Settings") {
-          iconName = focused ? "settings" : "settings-outline";
-        }
-
-        return <Ionicons name={iconName} size={size} color={color} />;
-      },
-      tabBarActiveTintColor: colors.primary,
-    })}
-  >
-    <Tabs.Screen name="Chat" component={Chat} />
-    <Tabs.Screen name="Settings" component={Settings} />
-  </Tabs.Navigator>
-);
-const MainStack = createNativeStackNavigator();
+  return (
+    <Tabs.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          return (
+            <Ionicons
+              name={route.name == "ChatList" ? "chatbubbles" : "settings"}
+              color={color}
+              size={size}
+            />
+          );
+        },
+      })}
+    >
+      <Tabs.Screen name="ChatList" component={ChatList} />
+      <Tabs.Screen name="settings" component={Settings} />
+    </Tabs.Navigator>
+  );
+};
 
 const App = () => {
   return (
     <NavigationContainer>
-      <MainStack.Navigator headerMode="none" mode="modal"> 
-        <MainStack.Screen   name="Tabs" component={TabsScreen} options={{ headerShown: false }} />
-        <MainStack.Screen   name="SignUp" component={SignUp} />
-        <ChatsStack.Screen name="Chats" component={Chats}/>
-      </MainStack.Navigator>
+      <Provider>
+        <Stack.Navigator>
+          <Tabs.Screen
+            name="Main"
+            component={TabsNavigator}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen name="Chat" component={Chat} />
+          <Stack.Screen
+            name="SignIn"
+            component={SignIn}
+            options={{ presentation: "fullScreenModal" }}
+          />
+          <Stack.Screen
+            name="Signup"
+            component={SignUp}
+            options={{ presentation: "fullScreenModal" }}
+          />
+        </Stack.Navigator>
+      </Provider>
     </NavigationContainer>
   );
 };

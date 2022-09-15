@@ -1,9 +1,9 @@
 import React from 'react'
 import { Text } from "react-native-web";
-function Chat() {
+function SignIn() {
   return (
-      <Text>SignUp</Text>
+     <Text>SignIn</Text>
   )
 }
 
-export default Chat
+export default SignIn
